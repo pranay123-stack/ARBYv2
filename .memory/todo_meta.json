@@ -1,0 +1,76 @@
+{
+  "todos": {
+    "Coordinator": {
+      "1": {
+        "id": "1",
+        "content": "Phase 1: Foundation & Infrastructure Setup",
+        "details": "1. Setup project structure and dependencies\n2. Create data models for opportunities, trades, configs\n3. Implement basic configuration management\n4. Setup logging and audit systems\n5. Create core mathematical utilities for arbitrage calculations",
+        "status": "pending",
+        "priority": "high"
+      },
+      "2": {
+        "id": "2",
+        "content": "Phase 2: Vision Language Model Integration",
+        "details": "1. Setup VLM environment (Qwen-VL or GPT-4V)\n2. Create screenshot capture utilities\n3. Implement VLM response parsing for odds extraction\n4. Test VLM accuracy on betting interfaces\n5. Create fallback mechanisms for failed parsing",
+        "status": "pending",
+        "priority": "high"
+      },
+      "3": {
+        "id": "3",
+        "content": "Phase 3: Arbitrage Detection Engine",
+        "details": "1. Build opportunity scanner using VLM\n2. Implement arbitrage mathematical calculations\n3. Create opportunity ranking and filtering\n4. Add multi-bookmaker data aggregation\n5. Test detection accuracy with real data",
+        "status": "pending",
+        "priority": "high"
+      },
+      "4": {
+        "id": "4",
+        "content": "Phase 4: Risk Management System",
+        "details": "1. Implement risk tier classification (A, B, C, D)\n2. Create stake calculation using Kelly criterion\n3. Add bankroll and limit validation\n4. Implement emergency stop mechanisms\n5. Build safety validation pipeline",
+        "status": "pending",
+        "priority": "high"
+      },
+      "5": {
+        "id": "5",
+        "content": "Phase 5: Browser Automation & AVO Integration",
+        "details": "1. Enhance existing Playwright setup for arbitrage workflows\n2. Create AVO Tabs interface and validation\n3. Implement multi-leg trade execution\n4. Add browser state monitoring\n5. Create bookmaker-specific automation handlers",
+        "status": "pending",
+        "priority": "high"
+      },
+      "6": {
+        "id": "6",
+        "content": "Phase 6: HITL (Human-In-The-Loop) Mode",
+        "details": "1. Build opportunity presentation system\n2. Create user approval workflow\n3. Implement timeout handling\n4. Add trade result logging\n5. Test end-to-end HITL execution flow",
+        "status": "pending",
+        "priority": "medium"
+      },
+      "7": {
+        "id": "7",
+        "content": "Phase 7: Autonomous Mode & Safety",
+        "details": "1. Implement autonomous execution for Tier A only\n2. Add real-time decision making\n3. Create circuit breakers and failsafes\n4. Implement concurrent trade handling\n5. Add autonomous mode monitoring and control",
+        "status": "pending",
+        "priority": "medium"
+      },
+      "8": {
+        "id": "8",
+        "content": "Phase 8: Data Storage & Supabase Integration",
+        "details": "1. Setup Supabase project and database schema\n2. Implement data persistence layer\n3. Add real-time subscriptions for dashboard\n4. Create user authentication integration\n5. Setup backup and recovery systems",
+        "status": "pending",
+        "priority": "medium"
+      },
+      "9": {
+        "id": "9",
+        "content": "Phase 9: Notification System",
+        "details": "1. Setup Telegram bot integration\n2. Implement email notification system\n3. Create dashboard real-time updates\n4. Add notification filtering and preferences\n5. Test multi-channel delivery",
+        "status": "pending",
+        "priority": "low"
+      },
+      "10": {
+        "id": "10",
+        "content": "Phase 10: Testing, Optimization & UI Integration",
+        "details": "1. Create comprehensive test suite\n2. Implement paper trading mode\n3. Add performance monitoring\n4. Integrate with existing dashboard UI\n5. Create user onboarding and documentation",
+        "status": "pending",
+        "priority": "low"
+      }
+    }
+  }
+}
