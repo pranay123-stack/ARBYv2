@@ -1,0 +1,47 @@
+# Coverage configuration for ARBITech testing
+[run]
+source = arbitech
+omit = 
+    */tests/*
+    */test_*
+    */__pycache__/*
+    */migrations/*
+    */venv/*
+    */virtualenv/*
+    .tox/*
+    setup.py
+    conftest.py
+
+branch = True
+parallel = True
+concurrency = thread
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    if self.debug:
+    if settings.DEBUG
+    raise AssertionError
+    raise NotImplementedError
+    if 0:
+    if __name__ == .__main__.:
+    class .*\bProtocol\):
+    @(abc\.)?abstractmethod
+
+ignore_errors = True
+precision = 2
+show_missing = True
+skip_covered = False
+sort = Cover
+
+[html]
+directory = testing/htmlcov
+title = ARBITech Test Coverage Report
+
+[xml]
+output = testing/coverage.xml
+
+[json]
+output = testing/coverage.json
+pretty_print = True

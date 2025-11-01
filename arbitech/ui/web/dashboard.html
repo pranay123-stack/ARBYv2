@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARBitech Dashboard - Real-Time Trading Monitor</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io@4.6.1/dist/socket.io.js"></script>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="dashboard-header">
+        <div class="header-left">
+            <h1><i class="fas fa-chart-line"></i> ARBitech Dashboard</h1>
+            <div class="connection-status">
+                <span id="connectionIndicator" class="status-indicator disconnected">
+                    <i class="fas fa-circle"></i>
+                </span>
+                <span id="connectionText">Disconnected</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="user-info">
+                <span id="currentUser">Guest User</span>
+                <div class="user-menu">
+                    <button class="user-menu-btn"><i class="fas fa-user-circle"></i></button>
+                    <div class="user-dropdown">
+                        <a href="#" onclick="showUserSettings()"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#" onclick="showPreferences()"><i class="fas fa-bell"></i> Notifications</a>
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="nav-section">
+                <h3>Trading</h3>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-view="overview">
+                        <i class="fas fa-home"></i> Overview
+                    </a></li>
+                    <li><a href="#" class="nav-link" data-view="opportunities">
+                        <i class="fas fa-search"></i> Opportunities
+                    </a></li>
+                    <li><a href="#" class="nav-link" data-view="trades">
+                        <i class="fas fa-exchange-alt"></i> Active Trades
+                    </a></li>
+                    <li><a href="#" class="nav-link" data-view="history">
+                        <i class="fas fa-history"></i> Trade History
+                    </a></li>
+                </ul>
+            </div>
+            <div class="nav-section">
+                <h3>Analytics</h3>
+                <ul>
+                    <li><a href="#" class="nav-link" data-view="performance">
+                        <i class="fas fa-chart-bar"></i> Performance
+                    </a></li>
+                    <li><a href="#" class="nav-link" data-view="profit">
+                        <i class="fas fa-dollar-sign"></i> Profit Analysis
+                    </a></li>
+                    <li><a href="#" class="nav-link" data-view="risk">
+                        <i class="fas fa-shield-alt"></i> Risk Management
+                    </a></li>
+                </ul>
+            </div>
+            <div class="nav-section">
+                <h3>System</h3>
+                <ul>
+                    <li><a href="#" class="nav-link" data-view="health">
+                        <i class="fas fa-heartbeat"></i> System Health
+                    </a></li>
+                    <li><a href="#" class="nav-link" data-view="monitoring">
+                        <i class="fas fa-desktop"></i> Monitoring
+                    </a></li>
+                    <li><a href="#" class="nav-link" data-view="logs">
+                        <i class="fas fa-list"></i> System Logs
+                    </a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Overview Dashboard -->
+            <div id="overview" class="content-view active">
+                <div class="dashboard-widgets">
+                    <!-- Key Metrics Row -->
+                    <div class="metrics-row">
+                        <div class="metric-card">
+                            <div class="metric-icon">
+                                <i class="fas fa-search-dollar"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3 id="totalOpportunities">0</h3>
+                                <p>Active Opportunities</p>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3 id="activeTrades">0</h3>
+                                <p>Active Trades</p>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3 id="dailyProfit">$0.00</h3>
+                                <p>Today's Profit</p>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">
+                                <i class="fas fa-percentage"></i>
+                            </div>
+                            <div class="metric-content">
+                                <h3 id="successRate">0%</h3>
+                                <p>Success Rate</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Row -->
+                    <div class="charts-row">
+                        <div class="chart-container">
+                            <h3>Live Opportunities</h3>
+                            <canvas id="opportunitiesChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Profit Trends</h3>
+                            <canvas id="profitChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- System Health -->
+                    <div class="system-status">
+                        <h3>System Status</h3>
+                        <div id="systemHealth" class="health-indicators">
+                            <div class="health-item">
+                                <span class="health-label">Scanner Engine</span>
+                                <span class="health-status online"><i class="fas fa-check-circle"></i> Online</span>
+                            </div>
+                            <div class="health-item">
+                                <span class="health-label">Trade Executor</span>
+                                <span class="health-status online"><i class="fas fa-check-circle"></i> Online</span>
+                            </div>
+                            <div class="health-item">
+                                <span class="health-label">Risk Monitor</span>
+                                <span class="health-status online"><i class="fas fa-check-circle"></i> Online</span>
+                            </div>
+                            <div class="health-item">
+                                <span class="health-label">Database</span>
+                                <span class="health-status online"><i class="fas fa-check-circle"></i> Online</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Opportunities View -->
+            <div id="opportunities" class="content-view">
+                <div class="view-header">
+                    <h2>Arbitrage Opportunities</h2>
+                    <div class="filters-panel">
+                        <select id="sportFilter">
+                            <option value="">All Sports</option>
+                            <option value="football">Football</option>
+                            <option value="basketball">Basketball</option>
+                            <option value="tennis">Tennis</option>
+                        </select>
+                        <select id="riskFilter">
+                            <option value="">All Risk Levels</option>
+                            <option value="tier_a">Tier A (Low Risk)</option>
+                            <option value="tier_b">Tier B</option>
+                            <option value="tier_c">Tier C</option>
+                            <option value="tier_d">Tier D (High Risk)</option>
+                        </select>
+                        <input type="number" id="minProfit" placeholder="Min Profit %" min="0" max="50">
+                        <button class="filter-btn" onclick="applyFilters()">
+                            <i class="fas fa-filter"></i> Filter
+                        </button>
+                        <button class="refresh-btn" onclick="refreshOpportunities()">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+                <div class="opportunities-table-container">
+                    <table id="opportunitiesTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Event</th>
+                                <th>Sport</th>
+                                <th>Profit %</th>
+                                <th>Expected Profit</th>
+                                <th>Risk</th>
+                                <th>Time Left</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="opportunitiesTableBody">
+                            <!-- Dynamic content -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Active Trades View -->
+            <div id="trades" class="content-view">
+                <div class="view-header">
+                    <h2>Active Trades</h2>
+                    <button class="action-btn" onclick="showTradeModal()">
+                        <i class="fas fa-plus"></i> New Trade
+                    </button>
+                </div>
+                <div class="trades-grid" id="activeTradesGrid">
+                    <!-- Dynamic trade cards -->
+                </div>
+            </div>
+
+            <!-- Performance Analytics -->
+            <div id="performance" class="content-view">
+                <div class="view-header">
+                    <h2>Performance Analytics</h2>
+                    <div class="date-range">
+                        <input type="date" id="perfStartDate">
+                        <input type="date" id="perfEndDate">
+                        <button onclick="updatePerformanceCharts()">Update</button>
+                    </div>
+                </div>
+                <div class="analytics-grid">
+                    <div class="chart-container large">
+                        <h3>Profit Over Time</h3>
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Win Rate</h3>
+                        <canvas id="winRateChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Risk Distribution</h3>
+                        <canvas id="riskChart"></canvas>
+                    </div>
+                    <div class="metrics-summary">
+                        <h3>Key Metrics</h3>
+                        <div class="metric-item">
+                            <span>Total Profit:</span>
+                            <span id="totalProfit">$0.00</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Average ROI:</span>
+                            <span id="avgROI">0%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Best Day:</span>
+                            <span id="bestDay">$0.00</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>Sharpe Ratio:</span>
+                            <span id="sharpeRatio">0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Health View -->
+            <div id="health" class="content-view">
+                <div class="view-header">
+                    <h2>System Health Monitor</h2>
+                    <div class="health-controls">
+                        <button onclick="toggleSystemMonitoring()">Start Monitoring</button>
+                        <button onclick="showSystemLogs()">View Logs</button>
+                    </div>
+                </div>
+                <div class="health-grid">
+                    <div class="health-card">
+                        <h3>CPU Usage</h3>
+                        <canvas id="cpuChart" width="200" height="100"></canvas>
+                        <div class="health-value" id="cpuValue">0%</div>
+                    </div>
+                    <div class="health-card">
+                        <h3>Memory Usage</h3>
+                        <canvas id="memoryChart" width="200" height="100"></canvas>
+                        <div class="health-value" id="memoryValue">0%</div>
+                    </div>
+                    <div class="health-card">
+                        <h3>Database Response</h3>
+                        <canvas id="dbChart" width="200" height="100"></canvas>
+                        <div class="health-value" id="dbValue">0ms</div>
+                    </div>
+                    <div class="health-card">
+                        <h3>Network Latency</h3>
+                        <canvas id="networkChart" width="200" height="100"></canvas>
+                        <div class="health-value" id="networkValue">0ms</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications Panel -->
+            <div id="notificationsPanel" class="slide-panel">
+                <div class="panel-header">
+                    <h3>Notifications</h3>
+                    <button onclick="closeNotifications()">×</button>
+                </div>
+                <div class="panel-content">
+                    <div id="notificationsList">
+                        <!-- Dynamic notifications -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Modal -->
+            <div id="settingsModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>User Settings</h3>
+                        <button onclick="closeSettingsModal()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="settingsForm">
+                            <div class="form-group">
+                                <label>Username:</label>
+                                <input type="text" id="username" placeholder="Enter username">
+                            </div>
+                            <div class="form-group">
+                                <label>Email Notifications:</label>
+                                <input type="checkbox" id="emailNotifications">
+                            </div>
+                            <div class="form-group">
+                                <label>Push Notifications:</label>
+                                <input type="checkbox" id="pushNotifications">
+                            </div>
+                            <div class="form-group">
+                                <label>Alert Threshold:</label>
+                                <select id="alertThreshold">
+                                    <option value="low">Low Priority</option>
+                                    <option value="medium">Medium Priority</option>
+                                    <option value="high">High Priority</option>
+                                    <option value="critical">Critical Only</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="action-btn">Save Settings</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Loading dashboard data...</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/dashboard.js"></script>
+</body>
+</html>

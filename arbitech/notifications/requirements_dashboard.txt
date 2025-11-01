@@ -1,0 +1,8 @@
+# Requirements for Real-Time Dashboard Update System
+websockets>=13.0.0
+pytest>=8.0.0
+
+# Optional dependencies for full integration
+# supabase>=2.0.0  # For Supabase integration
+# pydantic>=2.0.0  # For data validation
+# asyncio>=3.4.3   # Built-in to Python 3.7+

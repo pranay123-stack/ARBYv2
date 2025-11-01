@@ -1,0 +1,201 @@
+"""
+Paper Trading Configuration
+
+This file contains configuration settings for the paper trading system.
+You can customize these settings to match your specific requirements.
+
+Usage:
+    - Copy this file and modify settings as needed
+    - Pass the file path to PaperTradingSystem constructor
+    - Or modify the defaults in paper_trading.py directly
+"""
+
+{
+  "virtual_bookmakers": [
+    "Pinnacle",
+    "Betfair",
+    "William Hill",
+    "Bet365",
+    "Unibet",
+    "888Sport",
+    "Betway",
+    "Casumo",
+    "LeoVegas",
+    "MrGreen",
+    "DraftKings",
+    "FanDuel"
+  ],
+  
+  "initial_account_balances": {
+    "default": 10000.00,
+    "premium": 25000.00,
+    "vip": 50000.00
+  },
+  
+  "account_limits": {
+    "daily_limit": 5000.00,
+    "weekly_limit": 25000.00,
+    "monthly_limit": 100000.00,
+    "per_trade_limit": 1000.00
+  },
+  
+  "execution_settings": {
+    "enable_slippage": true,
+    "enable_delays": true,
+    "enable_failures": true,
+    "max_concurrent_trades": 10,
+    "trade_timeout_seconds": 30,
+    "retry_attempts": 3,
+    "auto_retry_delay_ms": 1000
+  },
+  
+  "slippage_simulation": {
+    "base_slippage": 0.005,
+    "odds_factor_weight": 0.5,
+    "stake_factor_weight": 0.3,
+    "market_condition_multiplier": {
+      "stable": 1.0,
+      "volatile": 2.5,
+      "high_liquidity": 0.7,
+      "low_liquidity": 3.0,
+      "changing_rapidly": 4.0
+    },
+    "bookmaker_multipliers": {
+      "Pinnacle": 0.8,
+      "Betfair": 0.9,
+      "William Hill": 1.1,
+      "Bet365": 1.2,
+      "Unibet": 1.0,
+      "default": 1.0
+    }
+  },
+  
+  "delay_simulation": {
+    "base_latency_ms": 50,
+    "mode_multipliers": {
+      "manual": 5.0,
+      "auto_full": 1.0,
+      "auto_stealth": 1.5,
+      "delayed": 2.0,
+      "simulated": 0.1
+    },
+    "condition_multipliers": {
+      "stable": 1.0,
+      "volatile": 2.0,
+      "high_liquidity": 0.8,
+      "low_liquidity": 3.0,
+      "changing_rapidly": 4.0
+    }
+  },
+  
+  "failure_simulation": {
+    "base_failure_rate": 0.02,
+    "condition_factors": {
+      "stable": 0.5,
+      "volatile": 3.0,
+      "high_liquidity": 0.8,
+      "low_liquidity": 4.0,
+      "changing_rapidly": 5.0
+    },
+    "tier_factors": {
+      "tier_a": 0.5,
+      "tier_b": 1.0,
+      "tier_c": 2.0,
+      "tier_d": 3.0
+    }
+  },
+  
+  "backtest_settings": {
+    "default_period_days": 30,
+    "include_slippage": true,
+    "include_delays": true,
+    "min_profit_margin": 0.02,
+    "max_trade_size": 1000.00,
+    "sample_rate": 1.0
+  },
+  
+  "performance_tracking": {
+    "save_trade_history": true,
+    "export_metrics": true,
+    "generate_reports": true,
+    "report_frequency": "daily",
+    "detailed_logging": true,
+    "metrics_retention_days": 90
+  },
+  
+  "market_simulation": {
+    "volatility_level": 0.02,
+    "price_drift": 0.0001,
+    "momentum_effect": 0.0,
+    "change_probability": 0.15,
+    "update_frequency_seconds": 5
+  },
+  
+  "hybrid_mode_settings": {
+    "paper_to_live_threshold": {
+      "min_profit_margin": 0.03,
+      "min_win_rate": 0.7,
+      "min_sample_size": 20
+    },
+    "live_to_paper_threshold": {
+      "max_consecutive_losses": 5,
+      "max_daily_loss": 0.05
+    },
+    "auto_switch_enabled": true
+  },
+  
+  "risk_management": {
+    "max_total_exposure": 10000.00,
+    "max_daily_trades": 100,
+    "max_position_size": 0.1,
+    "stop_loss_threshold": 0.1,
+    "drawdown_limit": 0.15
+  },
+  
+  "notification_settings": {
+    "enable_telegram": true,
+    "enable_email": false,
+    "enable_dashboard": true,
+    "notification_levels": {
+      "trade_execution": "high",
+      "performance_alerts": "medium",
+      "system_errors": "critical",
+      "profit_milestones": "medium"
+    },
+    "quiet_hours": {
+      "enabled": false,
+      "start_hour": 23,
+      "end_hour": 7
+    }
+  },
+  
+  "data_export": {
+    "export_formats": ["json", "csv", "xlsx"],
+    "include_charts": true,
+    "compress_old_files": true,
+    "max_file_age_days": 30,
+    "export_directory": "./exports"
+  },
+  
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "file_rotation": true,
+    "max_file_size_mb": 10,
+    "backup_count": 5
+  },
+  
+  "testing_settings": {
+    "mock_vlm_responses": true,
+    "simulate_network_errors": false,
+    "random_seed": 42,
+    "deterministic_mode": false,
+    "test_scenarios": [
+      "stable_market",
+      "volatile_market",
+      "low_liquidity",
+      "high_frequency",
+      "mixed_conditions"
+    ]
+  }
+}

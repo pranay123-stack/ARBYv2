@@ -1,0 +1,92 @@
+# ARBitech Dashboard Configuration
+
+# Server Configuration
+HOST = "0.0.0.0"
+PORT = 8080
+WS_PORT = 8765
+
+# Logging Configuration
+LOG_LEVEL = "INFO"
+LOG_FILE = "/workspace/arbitech/logs/dashboard.log"
+
+# Dashboard Settings
+DEFAULT_THEME = "dark"
+DEFAULT_REFRESH_INTERVAL = 5000  # milliseconds
+MAX_CONCURRENT_USERS = 1000
+
+# WebSocket Configuration
+WS_MAX_CONNECTIONS = 1000
+WS_KEEPALIVE_INTERVAL = 30
+WS_MESSAGE_QUEUE_SIZE = 100
+
+# Security Settings
+SECURE_COOKIES = False
+SESSION_TIMEOUT = 3600  # seconds
+MAX_LOGIN_ATTEMPTS = 5
+
+# Performance Settings
+CHART_UPDATE_INTERVAL = 10000  # milliseconds
+METRICS_UPDATE_INTERVAL = 5000  # milliseconds
+HEALTH_CHECK_INTERVAL = 2000   # milliseconds
+
+# Data Settings
+MAX_OPPORTUNITIES_DISPLAY = 50
+MAX_TRADES_DISPLAY = 20
+MAX_HISTORY_DAYS = 30
+
+# Notification Settings
+DEFAULT_ALERT_THRESHOLD = "medium"
+ENABLE_EMAIL_NOTIFICATIONS = True
+ENABLE_PUSH_NOTIFICATIONS = True
+
+# Feature Flags
+ENABLE_DEMO_MODE = True
+ENABLE_COLLABORATION = True
+ENABLE_DATA_EXPORT = True
+ENABLE_ADVANCED_ANALYTICS = True
+
+# ARBITech Integration
+ENABLE_SCANNER_INTEGRATION = True
+ENABLE_TRADE_EXECUTOR_INTEGRATION = True
+ENABLE_RISK_MONITOR_INTEGRATION = True
+
+# Mock Data (for demo mode)
+MOCK_OPPORTUNITIES_INTERVAL = 2.0  # seconds
+MOCK_TRADES_INTERVAL = 3.0  # seconds
+MOCK_HEALTH_INTERVAL = 2.0  # seconds
+
+# UI Configuration
+SIDEBAR_WIDTH = 250
+HEADER_HEIGHT = 80
+MIN_CHART_HEIGHT = 300
+MAX_CHART_HEIGHT = 600
+
+# Responsive Breakpoints
+MOBILE_BREAKPOINT = 768
+TABLET_BREAKPOINT = 1024
+DESKTOP_BREAKPOINT = 1200
+
+# Color Scheme
+PRIMARY_COLOR = "#1a73e8"
+SECONDARY_COLOR = "#34a853"
+WARNING_COLOR = "#fbbc04"
+ERROR_COLOR = "#ea4335"
+SUCCESS_COLOR = "#34a853"
+
+# Charts Configuration
+CHART_ANIMATION_DURATION = 750
+CHART_RESPONSIVE = True
+CHART_MAINTAIN_ASPECT_RATIO = False
+
+# API Rate Limiting
+API_RATE_LIMIT_PER_MINUTE = 100
+API_RATE_LIMIT_PER_HOUR = 1000
+
+# Cache Settings
+CACHE_TTL = 300  # seconds
+CACHE_MAX_SIZE = 1000
+
+# Database Settings (if using persistent storage)
+DB_ENABLED = False
+DB_URL = "postgresql://user:password@localhost/arbitech"
+DB_POOL_SIZE = 10

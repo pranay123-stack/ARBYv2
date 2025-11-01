@@ -1,0 +1,376 @@
+name: ARBITech Comprehensive Testing
+
+on:
+  push:
+    branches: [ main, develop, staging ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run comprehensive tests daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      test_type:
+        description: 'Type of tests to run'
+        required: true
+        default: 'full'
+        type: choice
+        options:
+          - unit
+          - integration
+          - performance
+          - stress
+          - regression
+          - full
+
+env:
+  PYTHON_VERSION: '3.11'
+  MIN_COVERAGE: '75'
+
+jobs:
+  # Job 1: Code Quality and Security
+  code-quality:
+    name: Code Quality & Security
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements-test.txt') }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r arbitech/testing/requirements-test.txt
+
+    - name: Run linting
+      run: |
+        cd arbitech/testing
+        python -m flake8 --max-line-length=100 --exclude=__pycache__,venv .
+        python -m black --check .
+        python -m isort --check-only .
+
+    - name: Run security checks
+      run: |
+        cd arbitech/testing
+        python -m bandit -r ../ -f json -o security_report.json || true
+        python -m safety check --json --output safety_report.json || true
+
+    - name: Upload security reports
+      uses: actions/upload-artifact@v3
+      with:
+        name: security-reports
+        path: |
+          arbitech/testing/security_report.json
+          arbitech/testing/safety_report.json
+
+  # Job 2: Unit Tests
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: code-quality
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11']
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-py${{ matrix.python-version }}-pip-${{ hashFiles('**/requirements-test.txt') }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r arbitech/testing/requirements-test.txt
+
+    - name: Run unit tests
+      run: |
+        cd arbitech/testing
+        python run_tests.py --mode unit --coverage --parallel
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: arbitech/testing/test_results/coverage.xml
+        flags: unit-tests
+        name: codecov-${{ matrix.python-version }}
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: unit-test-results-${{ matrix.python-version }}
+        path: |
+          arbitech/testing/test_results/
+          arbitech/testing/htmlcov/
+
+  # Job 3: Integration Tests
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: code-quality
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r arbitech/testing/requirements-test.txt
+
+    - name: Run integration tests
+      run: |
+        cd arbitech/testing
+        python run_tests.py --mode integration --coverage
+
+    - name: Upload integration test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: integration-test-results
+        path: |
+          arbitech/testing/test_results/
+
+  # Job 4: End-to-End Tests
+  e2e-tests:
+    name: End-to-End Tests
+    runs-on: ubuntu-latest
+    needs: [unit-tests, integration-tests]
+    if: github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'e2e')
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r arbitech/testing/requirements-test.txt
+
+    - name: Run E2E tests
+      run: |
+        cd arbitech/testing
+        python run_tests.py --mode e2e
+
+    - name: Upload E2E test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: e2e-test-results
+        path: arbitech/testing/test_results/
+
+  # Job 5: Performance Tests
+  performance-tests:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+    needs: [unit-tests, integration-tests]
+    if: github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'performance')
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r arbitech/testing/requirements-test.txt
+
+    - name: Run performance tests
+      run: |
+        cd arbitech/testing
+        python run_tests.py --performance --benchmark
+
+    - name: Upload performance results
+      uses: actions/upload-artifact@v3
+      with:
+        name: performance-results
+        path: |
+          arbitech/testing/test_results/benchmark_results.json
+          arbitech/testing/test_results/htmlcov/
+
+  # Job 6: Stress Tests (Scheduled only)
+  stress-tests:
+    name: Stress Tests
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event.inputs.test_type == 'stress'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r arbitech/testing/requirements-test.txt
+
+    - name: Run stress tests
+      run: |
+        cd arbitech/testing
+        python run_tests.py --mode stress --verbose
+
+    - name: Upload stress test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: stress-test-results
+        path: arbitech/testing/test_results/
+
+  # Job 7: Regression Tests
+  regression-tests:
+    name: Regression Tests
+    runs-on: ubuntu-latest
+    needs: [unit-tests, integration-tests]
+    if: github.event_name == 'schedule' || github.event.inputs.test_type == 'regression'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r arbitech/testing/requirements-test.txt
+
+    - name: Download previous regression results
+      uses: actions/download-artifact@v3
+      with:
+        name: regression-results
+        path: arbitech/testing/test_results/previous/
+
+    - name: Run regression tests
+      run: |
+        cd arbitech/testing
+        python run_tests.py --mode regression
+
+    - name: Upload regression results
+      uses: actions/upload-artifact@v3
+      with:
+        name: regression-results
+        path: |
+          arbitech/testing/test_results/regression_results_*.json
+
+  # Job 8: Comprehensive Test Report
+  test-report:
+    name: Generate Test Report
+    runs-on: ubuntu-latest
+    needs: [unit-tests, integration-tests, e2e-tests]
+    if: always()
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3
+
+    - name: Install report dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r arbitech/testing/requirements-test.txt
+
+    - name: Generate comprehensive report
+      run: |
+        cd arbitech/testing
+        python run_tests.py --output-dir test_results/final_report
+
+    - name: Upload comprehensive report
+      uses: actions/upload-artifact@v3
+      with:
+        name: comprehensive-test-report
+        path: |
+          arbitech/testing/test_results/final_report/
+
+    - name: Comment PR with results
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          const path = require('path');
+          
+          let comment = '## 🧪 Test Results Summary\n\n';
+          
+          // Add test results from different jobs
+          const jobs = ['unit-tests', 'integration-tests', 'e2e-tests'];
+          
+          for (const job of jobs) {
+            try {
+              const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                run_id: context.runId,
+              });
+              
+              const jobArtifacts = artifacts.data.artifacts.filter(artifact => 
+                artifact.name.includes(job.replace('-', ''))
+              );
+              
+              if (jobArtifacts.length > 0) {
+                comment += `### ${job.replace('-', ' ').toUpperCase()}\n`;
+                comment += `✅ Status: Check artifacts for detailed results\n\n`;
+              }
+            } catch (error) {
+              console.error(`Error processing ${job}:`, error);
+            }
+          }
+          
+          comment += `\n> 📊 View detailed reports in the Actions artifacts.`;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
+
+  # Job 9: Notify on failure
+  notify-failure:
+    name: Notify on Failure
+    runs-on: ubuntu-latest
+    needs: [code-quality, unit-tests, integration-tests, e2e-tests, performance-tests, stress-tests, regression-tests]
+    if: failure() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    steps:
+    - name: Notify failure
+      run: |
+        echo "One or more test jobs failed!"
+        # Add notification logic here (Slack, Discord, email, etc.)
+        # Example: Send webhook to monitoring system
