@@ -166,7 +166,7 @@ class ArbitrageOpportunity(UUIDMixin, TimestampMixin):
     def validate_legs(cls, v):
         """Ensure legs percentages sum to 1.0."""
         total_percentage = sum(leg.stake_percentage for leg in v)
-        if abs(total_percentage - 1.0) > 0.01:  # Allow small rounding errors
+        if abs(total_percentage - Decimal('1.0')) > Decimal('0.01'):  # Allow small rounding errors
             raise ValueError("Leg stake percentages must sum to 1.0")
         return v
     
@@ -240,7 +240,7 @@ class Trade(UUIDMixin, TimestampMixin):
             
             if stake_data and expected_profit is not None:
                 total_potential_return = sum(stake_data.leg_allocations.values())
-                if expected_profit > total_potential_return * 0.1:  # Max 10% profit margin
+                if expected_profit > total_potential_return * Decimal('0.1'):  # Max 10% profit margin
                     raise ValueError("Expected profit seems unrealistic")
         
         return values

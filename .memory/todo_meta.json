@@ -26,21 +26,21 @@
         "id": "4",
         "content": "Phase 4: Risk Management System",
         "details": "1. Implement risk tier classification (A, B, C, D)\n2. Create stake calculation using Kelly criterion\n3. Add bankroll and limit validation\n4. Implement emergency stop mechanisms\n5. Build safety validation pipeline",
-        "status": "pending",
+        "status": "completed",
         "priority": "high"
       },
       "5": {
         "id": "5",
         "content": "Phase 5: Browser Automation & AVO Integration",
         "details": "1. Enhance existing Playwright setup for arbitrage workflows\n2. Create AVO Tabs interface and validation\n3. Implement multi-leg trade execution\n4. Add browser state monitoring\n5. Create bookmaker-specific automation handlers",
-        "status": "pending",
+        "status": "completed",
         "priority": "high"
       },
       "6": {
         "id": "6",
         "content": "Phase 6: HITL (Human-In-The-Loop) Mode",
         "details": "1. Build opportunity presentation system\n2. Create user approval workflow\n3. Implement timeout handling\n4. Add trade result logging\n5. Test end-to-end HITL execution flow",
-        "status": "pending",
+        "status": "in_progress",
         "priority": "medium"
       },
       "7": {
