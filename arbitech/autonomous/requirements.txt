@@ -1,0 +1,16 @@
+# Requirements for Heavenly Circuit Breakers and Divine Failsafes
+
+# Core dependencies
+numpy>=1.21.0
+scipy>=1.7.0
+pyyaml>=5.4.0
+asyncio-throttle>=1.0.0
+
+# Testing dependencies (already covered by main project)
+# pytest>=7.0.0
+# pytest-asyncio>=0.21.0
+
+# Optional dependencies for enhanced functionality
+psutil>=5.8.0  # For system monitoring
+redis>=4.0.0   # For distributed caching (optional)
+prometheus-client>=0.14.0  # For metrics export (optional)

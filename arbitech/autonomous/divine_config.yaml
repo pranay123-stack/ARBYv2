@@ -1,0 +1,106 @@
+# Heavenly Circuit Breakers Configuration
+# =======================================
+# Divine configuration for celestial protection systems
+
+# Guardian Angel Configuration
+guardian_angels:
+  primary_guardian:
+    name: "Archangel Michael"
+    protection_level: "ARCHANGEL"
+    
+  secondary_guardian:
+    name: "Guardian Angel Gabriel"
+    protection_level: "GUARDIAN"
+    
+  tertiary_guardian:
+    name: "Seraph Raphael"
+    protection_level: "SERAPHIC"
+
+# Anomaly Detection Settings
+anomaly_detection:
+  divine_sensitivity: 0.95  # Higher values = more sensitive detection
+  window_size: 100          # Historical data window size
+  baseline_threshold: 0.05  # Threshold for baseline establishment
+
+# Phoenix Recovery Configuration
+recovery:
+  resurrection_protocol: "DIVINE"  # DIVINE, GRACEFUL, AGGRESSIVE
+  cooldown_minutes: 5               # Minimum time between resurrections
+  max_recovery_attempts: 3          # Maximum recovery attempts per failure
+  
+# Divine Intervention Thresholds
+intervention_thresholds:
+  emergency_shutdown: 0.90   # Trigger emergency shutdown at 90% failure rate
+  circuit_breaker: 0.70      # Trigger circuit breaker at 70% failure rate
+  divine_isolation: 0.80     # Trigger isolation at 80% failure rate
+  guardian_reinforcement: 0.60  # Trigger guardian reinforcement at 60% failure rate
+
+# Circuit Breaker Settings (defaults)
+circuit_breaker_defaults:
+  failure_threshold: 0.5     # Open circuit when failure rate exceeds 50%
+  recovery_timeout: 60       # Wait 60 seconds before attempting recovery
+  half_open_max_calls: 3     # Allow 3 calls in half-open state
+
+# Monitoring Configuration
+monitoring:
+  divine_scan_interval: 5    # Scan every 5 seconds
+  guardian_heartbeat_interval: 10  # Guardian heartbeat every 10 seconds
+  metrics_retention_hours: 24  # Keep metrics for 24 hours
+  enable_predictive_monitoring: true
+
+# Logging Configuration
+logging:
+  divine_log_level: "INFO"   # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  log_divine_interventions: true
+  log_anomaly_detections: true
+  log_phoenix_recovery: true
+  max_log_size_mb: 100
+  backup_count: 5
+
+# Protection Layers
+protection_layers:
+  layer_1_baseline: true      # Basic circuit breaker protection
+  layer_2_guardian: true      # Guardian angel monitoring
+  layer_3_anomaly: true       # Anomaly detection
+  layer_4_predictive: true    # Predictive failure detection
+  layer_5_recovery: true      # Phoenix-like recovery
+  layer_6_intervention: true  # Divine intervention protocols
+
+# Risk Management
+risk_management:
+  high_risk_threshold: 0.3    # High risk starts at 30% failure rate
+  critical_threshold: 0.8     # Critical at 80% failure rate
+  auto_guardian_assignment: true
+  auto_intervention: true
+  max_failure_burst: 10       # Max failures before immediate intervention
+
+# Service-Specific Configuration
+services:
+  critical_service:
+    failure_threshold: 0.2    # Lower threshold for critical services
+    recovery_timeout: 30      # Faster recovery
+    guardian_level: "DIVINE"
+    
+  standard_service:
+    failure_threshold: 0.5    # Standard threshold
+    recovery_timeout: 60      # Standard recovery
+    guardian_level: "GUARDIAN"
+    
+  background_service:
+    failure_threshold: 0.7    # Higher threshold for background services
+    recovery_timeout: 120     # Slower recovery for background tasks
+    guardian_level: "VIGIL"
+
+# Performance Tuning
+performance:
+  max_concurrent_services: 100
+  thread_pool_size: 10
+  async_timeout: 30          # Timeout for async operations
+  batch_processing_size: 50  # Process metrics in batches
+  
+# Integration Settings
+integration:
+  enable_metrics_export: false
+  metrics_export_format: "prometheus"  # prometheus, json
+  enable_distributed_monitoring: false
+  redis_url: "redis://localhost:6379"

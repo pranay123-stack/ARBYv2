@@ -1,0 +1,62 @@
+{
+  "test_suite": "ethereal_concurrent_executor",
+  "timestamp": "2025-11-02T03:39:00.060045",
+  "total_tests": 6,
+  "passed_tests": 3,
+  "failed_tests": 3,
+  "success_rate_percent": 50.0,
+  "individual_test_results": {
+    "test_basic_concurrent_execution": {
+      "test_name": "basic_concurrent_execution",
+      "total_opportunities": 10,
+      "successful_executions": 10,
+      "failed_executions": 0,
+      "execution_time_seconds": 12.246703386306763,
+      "success_rate_percent": 100.0,
+      "passed": true
+    },
+    "test_resource_allocation_stress": {
+      "test_name": "test_resource_allocation_stress",
+      "error": "'coroutine' object is not iterable",
+      "passed": false
+    },
+    "test_atomic_execution_guarantees": {
+      "test_name": "atomic_execution_guarantees",
+      "total_executions": 5,
+      "successful_executions": 5,
+      "failed_executions": 0,
+      "atomic_violations": 0,
+      "execution_time_seconds": 4.293823480606079,
+      "success_rate_percent": 100.0,
+      "atomic_consistency": true,
+      "passed": true
+    },
+    "test_synchronization_performance": {
+      "test_name": "test_synchronization_performance",
+      "error": "object of type 'coroutine' has no len()",
+      "passed": false
+    },
+    "test_load_balancing_efficiency": {
+      "test_name": "load_balancing_efficiency",
+      "total_opportunities": 20,
+      "total_executions": 20,
+      "execution_time_seconds": 22.871546268463135,
+      "avg_execution_times_by_priority": {
+        "COSMIC": 4.213240727272727,
+        "METEOR": 3.904676333333333,
+        "LUNAR": 5.094473,
+        "ASTRAL": 3.7339045000000004,
+        "STELLAR": 4.003049000000001
+      },
+      "throughput_opportunities_per_second": 0.8744489666436492,
+      "load_balance_score": 0.8858865814447299,
+      "passed": true
+    },
+    "test_stress_scenario": {
+      "test_name": "test_stress_scenario",
+      "error": "object of type 'coroutine' has no len()",
+      "passed": false
+    }
+  },
+  "overall_status": "FAILED"
+}
