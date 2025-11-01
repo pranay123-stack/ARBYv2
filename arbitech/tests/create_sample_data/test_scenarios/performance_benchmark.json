@@ -1,0 +1,142 @@
+{
+  "scenario_name": "Performance Benchmark Test",
+  "description": "Test VLM processing speed, throughput, and resource usage",
+  "version": "1.0",
+  "created_date": "2024-03-15T10:30:00Z",
+  "test_configurations": [
+    {
+      "test_name": "Single Image Processing Speed",
+      "description": "Measure processing time for individual images",
+      "batch_size": 1,
+      "iterations": 50,
+      "target_images": [
+        "perfect_football_interface.png",
+        "perfect_tennis_interface.png",
+        "complex_multi_market_interface.png"
+      ],
+      "metrics": [
+        "average_processing_time_ms",
+        "median_processing_time_ms",
+        "min_processing_time_ms",
+        "max_processing_time_ms",
+        "std_deviation_ms"
+      ],
+      "performance_targets": {
+        "max_average_time_ms": 200,
+        "max_95th_percentile_ms": 350,
+        "min_success_rate": 0.85
+      }
+    },
+    {
+      "test_name": "Batch Processing Throughput",
+      "description": "Measure processing speed for multiple concurrent images",
+      "batch_sizes": [1, 5, 10, 20],
+      "iterations_per_batch": 10,
+      "target_images": [
+        "perfect_football_interface.png",
+        "perfect_tennis_interface.png"
+      ],
+      "metrics": [
+        "images_processed_per_second",
+        "total_batch_time_ms",
+        "throughput_efficiency",
+        "memory_usage_mb",
+        "cpu_usage_percent"
+      ],
+      "performance_targets": {
+        "min_throughput_per_second": 5.0,
+        "max_memory_usage_mb": 512,
+        "efficiency_dropoff_threshold": 0.80
+      }
+    },
+    {
+      "test_name": "Memory Usage Profile",
+      "description": "Monitor memory usage during extended processing",
+      "duration_minutes": 5,
+      "images_per_minute": 30,
+      "target_images": [
+        "perfect_football_interface.png",
+        "complex_multi_market_interface.png",
+        "partial_interface.png"
+      ],
+      "metrics": [
+        "peak_memory_usage_mb",
+        "average_memory_usage_mb",
+        "memory_leak_indicators",
+        "garbage_collection_frequency"
+      ],
+      "performance_targets": {
+        "max_memory_usage_mb": 1024,
+        "max_memory_growth_rate_mb_per_minute": 50,
+        "memory_stability": "should_stabilize_within_2_minutes"
+      }
+    },
+    {
+      "test_name": "Concurrent Load Testing",
+      "description": "Test performance under concurrent processing load",
+      "concurrent_workers": [1, 2, 4, 8],
+      "duration_minutes": 2,
+      "images_per_worker_per_minute": 15,
+      "metrics": [
+        "total_throughput",
+        "worker_efficiency",
+        "queue_depth",
+        "processing_latency",
+        "error_rate_under_load"
+      ],
+      "performance_targets": {
+        "max_concurrent_efficiency_dropoff": 0.30,
+        "max_queue_depth": 100,
+        "max_processing_latency_ms": 1000,
+        "max_error_rate_under_load": 0.05
+      }
+    }
+  ],
+  "stress_test_scenarios": [
+    {
+      "scenario_name": "Sustained High Load",
+      "description": "Extended period of high processing load",
+      "duration_minutes": 10,
+      "concurrent_workers": 4,
+      "images_per_minute": 60,
+      "success_criteria": {
+        "sustained_throughput": 50.0,
+        "error_rate": 0.02,
+        "memory_stability": "no_continuous_growth"
+      }
+    },
+    {
+      "scenario_name": "Rapid Fire Processing",
+      "description": "Burst of quick successive processing requests",
+      "burst_size": 100,
+      "burst_duration_seconds": 30,
+      "success_criteria": {
+        "burst_completion_time": 60,
+        "success_rate": 0.90,
+        "no_queue_overflow": true
+      }
+    }
+  ],
+  "baseline_measurements": {
+    "reference_hardware": "Standard testing environment",
+    "vlm_model_version": "baseline_v1.0",
+    "reference_metrics": {
+      "single_image_time_ms": 150,
+      "throughput_per_second": 8.0,
+      "memory_usage_mb": 256
+    }
+  },
+  "regression_detection": {
+    "thresholds": {
+      "performance_regression": 0.20,
+      "throughput_regression": 0.15,
+      "memory_regression": 0.25
+    },
+    "alert_conditions": [
+      "Performance degraded by more than 20%",
+      "Throughput dropped by more than 15%", 
+      "Memory usage increased by more than 25%",
+      "Error rate exceeded 5%"
+    ]
+  }
+}

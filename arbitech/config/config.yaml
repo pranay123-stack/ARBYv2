@@ -38,27 +38,121 @@ user:
 # SYSTEM CONFIGURATION
 # =============================================================================
 system:
-  # VLM (Virtual Live Model) parameters
+  # VLM (Vision Language Model) parameters
   vlm:
-    # VLM model endpoint
+    # Model configuration
+    model:
+      # Qwen2-VL model to use
+      model_name: "Qwen/Qwen2-VL-2B-Instruct"
+      
+      # Custom model path (overrides model_name if provided)
+      model_path: null
+      
+      # Device to use for inference
+      device: "auto"  # "auto", "cpu", "cuda", "mps"
+      
+      # Model precision
+      precision: "fp16"  # "fp16", "fp32", "int8", "int4"
+      
+      # Generation parameters
+      max_new_tokens: 512
+      temperature: 0.1
+      top_p: 0.9
+      top_k: 50
+      repetition_penalty: 1.1
+      
+      # Image processing settings
+      image_size: 224
+      patch_size: 14
+      
+      # Context and memory settings
+      max_length: 2048
+      
+      # Quantization settings
+      load_in_8bit: false
+      load_in_4bit: false
+      
+      # Trust remote code (for community models)
+      trust_remote_code: true
+    
+    # Performance configuration
+    performance:
+      # Batch processing settings
+      batch_size: 1
+      max_batch_size: 4
+      
+      # Memory management
+      max_memory_per_gpu: null  # e.g., "8GB"
+      cpu_offload: false
+      
+      # Streaming settings
+      use_streaming: true
+      stream_interval: 0.1
+      
+      # Caching settings
+      use_cache: true
+      cache_dir: ".cache/vlm"
+      
+      # Worker settings
+      num_workers: 4
+      max_queue_size: 100
+      
+      # Timeout settings
+      model_load_timeout: 300  # 5 minutes
+      inference_timeout: 30    # 30 seconds
+      
+      # Rate limiting
+      requests_per_minute: 60
+      burst_limit: 10
+    
+    # Monitoring configuration
+    monitoring:
+      # Performance monitoring
+      enable_performance_monitoring: true
+      metrics_interval: 60.0
+      
+      # Memory monitoring
+      monitor_memory_usage: true
+      memory_threshold: 0.8  # 80%
+      
+      # Error tracking
+      track_errors: true
+      error_threshold: 10  # errors per hour
+      
+      # Logging
+      enable_detailed_logging: true
+      log_file: null
+      
+      # Health checks
+      enable_health_checks: true
+      health_check_interval: 300.0  # 5 minutes
+    
+    # Feature flags
+    features:
+      enable_image_processing: true
+      enable_batch_processing: false
+      enable_caching: true
+      enable_async_inference: true
+      enable_error_recovery: true
+      enable_metrics_collection: true
+      auto_device_config: false  # Automatically optimize device settings
+    
+    # Paths and directories
+    cache_dir: ".cache/vlm"
+    model_cache_dir: ".cache/models"
+    log_dir: "logs/vlm"
+    
+    # Validation settings
+    validate_on_load: true
+    strict_validation: true
+    
+    # Legacy API settings (for backward compatibility)
     endpoint: "http://localhost:8080/vlm"
-    
-    # API key for VLM service
     api_key: null
-    
-    # Request timeout in seconds
     timeout: 30
-    
-    # Number of retry attempts
     retry_attempts: 3
-    
-    # Retry delay in seconds
     retry_delay: 5
-    
-    # Enable/disable VLM integration
     enabled: true
-    
-    # Rate limit per minute
     rate_limit_per_minute: 60
   
   # Scan intervals (in seconds)

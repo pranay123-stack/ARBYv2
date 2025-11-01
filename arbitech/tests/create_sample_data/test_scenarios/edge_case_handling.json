@@ -1,0 +1,89 @@
+{
+  "scenario_name": "Edge Case Handling Test",
+  "description": "Test VLM performance on challenging scenarios and edge cases",
+  "version": "1.0",
+  "created_date": "2024-03-15T10:15:00Z",
+  "test_images": [
+    {
+      "image": "partial_interface.png",
+      "ground_truth": "pinnacle_football_asian_handicap_partial_interface.json",
+      "bookmaker": "Pinnacle",
+      "sport": "Football",
+      "market_type": "asian_handicap",
+      "edge_case_type": "partial_interface",
+      "expected_behavior": "should_handle_gracefully",
+      "graceful_failure_acceptable": true
+    },
+    {
+      "image": "loading_state_interface.png",
+      "ground_truth": "ladbrokes_football_match_winner_loading_state_interface.json",
+      "bookmaker": "Ladbrokes", 
+      "sport": "Football",
+      "market_type": "match_winner",
+      "edge_case_type": "loading_state",
+      "expected_behavior": "should_timeout_or_return_error",
+      "graceful_failure_acceptable": true
+    },
+    {
+      "image": "error_page_interface.png",
+      "bookmaker": "1xBet",
+      "sport": "Tennis",
+      "market_type": "match_winner",
+      "edge_case_type": "error_page",
+      "expected_behavior": "should_detect_error_and_fail_gracefully",
+      "graceful_failure_acceptable": true
+    },
+    {
+      "image": "low_res_interface.png",
+      "bookmaker": "Bet365",
+      "sport": "Basketball",
+      "market_type": "total_points",
+      "edge_case_type": "low_resolution",
+      "expected_behavior": "should_attempt_extraction_with_low_confidence",
+      "graceful_failure_acceptable": false
+    },
+    {
+      "image": "multilingual_interface.png",
+      "bookmaker": "1xBet",
+      "sport": "Football",
+      "market_type": "match_winner",
+      "edge_case_type": "multilingual",
+      "expected_behavior": "should_handle_multiple_languages",
+      "graceful_failure_acceptable": false
+    }
+  ],
+  "success_criteria": {
+    "graceful_handling_rate": 0.80,
+    "minimum_error_detection": 0.95,
+    "maximum_crash_rate": 0.05,
+    "timeout_handling": "must_handle_gracefully"
+  },
+  "edge_case_categories": {
+    "interface_issues": {
+      "description": "Problems with the interface itself",
+      "cases": ["partial_interface", "low_resolution", "overlay_elements"],
+      "handling_expectation": "graceful_degradation"
+    },
+    "loading_issues": {
+      "description": "Problems during content loading",
+      "cases": ["loading_state", "timeout", "connection_issues"],
+      "handling_expectation": "timeout_and_retry"
+    },
+    "data_issues": {
+      "description": "Problems with the data content",
+      "cases": ["error_page", "maintenance_mode", "no_data"],
+      "handling_expectation": "clear_error_reporting"
+    },
+    "format_issues": {
+      "description": "Problems with data format or language",
+      "cases": ["multilingual", "unusual_format", "custom_layout"],
+      "handling_expectation": "best_effort_extraction"
+    }
+  },
+  "evaluation_metrics": {
+    "graceful_failure_rate": "percentage of edge cases handled without crashes",
+    "error_detection_accuracy": "percentage of actual errors correctly identified",
+    "false_positive_rate": "percentage of valid interfaces misidentified as errors",
+    "recovery_time": "time to recover from edge cases and resume normal operation"
+  }
+}

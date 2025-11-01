@@ -1,0 +1,47 @@
+{
+  "image_filename": "complex_multi_market_interface.png",
+  "bookmaker": "Betfair",
+  "sport": "Basketball",
+  "event_name": "Los Angeles Lakers vs Golden State Warriors",
+  "event_date": "2024-03-17T21:00:00Z",
+  "market_type": "total_points",
+  "league": "NBA",
+  "odds": [
+    {
+      "outcome": "Over 225.5",
+      "decimal_odds": 1.91,
+      "fractional_odds": "10/11",
+      "implied_probability": 0.5236,
+      "american_odds": -110
+    },
+    {
+      "outcome": "Under 225.5",
+      "decimal_odds": 1.91,
+      "fractional_odds": "10/11",
+      "implied_probability": 0.5236,
+      "american_odds": -110
+    }
+  ],
+  "ui_elements": [
+    "back_lay_odds",
+    "market_volume",
+    "commission_rate",
+    "exchange_info",
+    "multiple_markets_tab",
+    "betting_exchange_interface"
+  ],
+  "extraction_difficulty": "medium",
+  "validation_notes": [
+    "Exchange-style interface",
+    "Back and lay odds displayed",
+    "Market volume information",
+    "Commission calculation visible",
+    "Multiple market tabs"
+  ],
+  "confidence_factors": {
+    "image_quality": 0.85,
+    "text_clarity": 0.82,
+    "layout_consistency": 0.88,
+    "standard_format": 0.75
+  }
+}

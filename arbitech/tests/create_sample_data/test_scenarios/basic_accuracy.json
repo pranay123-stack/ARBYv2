@@ -1,0 +1,64 @@
+{
+  "scenario_name": "Basic Accuracy Test",
+  "description": "Test VLM accuracy on standard betting interfaces without edge cases",
+  "version": "1.0",
+  "created_date": "2024-03-15T10:00:00Z",
+  "test_images": [
+    {
+      "image": "perfect_football_interface.png",
+      "ground_truth": "bet365_football_match_winner_perfect_football_interface.json",
+      "bookmaker": "Bet365",
+      "sport": "Football",
+      "market_type": "match_winner",
+      "expected_success_rate": 0.95,
+      "tolerance": {
+        "odds_variance": 0.05,
+        "confidence_threshold": 0.80
+      }
+    },
+    {
+      "image": "perfect_tennis_interface.png",
+      "ground_truth": "william_hill_tennis_match_winner_perfect_tennis_interface.json",
+      "bookmaker": "William Hill",
+      "sport": "Tennis",
+      "market_type": "match_winner",
+      "expected_success_rate": 0.92,
+      "tolerance": {
+        "odds_variance": 0.05,
+        "confidence_threshold": 0.75
+      }
+    },
+    {
+      "image": "complex_multi_market_interface.png",
+      "ground_truth": "betfair_basketball_total_points_complex_multi_market_interface.json",
+      "bookmaker": "Betfair",
+      "sport": "Basketball",
+      "market_type": "total_points",
+      "expected_success_rate": 0.85,
+      "tolerance": {
+        "odds_variance": 0.08,
+        "confidence_threshold": 0.70
+      }
+    }
+  ],
+  "success_criteria": {
+    "minimum_accuracy": 0.85,
+    "maximum_false_positive_rate": 0.10,
+    "minimum_confidence": 0.70,
+    "maximum_processing_time_ms": 300
+  },
+  "test_phases": [
+    {
+      "phase_name": "Perfect Interface Testing",
+      "description": "Test on ideal interface conditions",
+      "images": ["perfect_football_interface.png", "perfect_tennis_interface.png"],
+      "target_accuracy": 0.90
+    },
+    {
+      "phase_name": "Complex Interface Testing", 
+      "description": "Test on complex multi-market interfaces",
+      "images": ["complex_multi_market_interface.png"],
+      "target_accuracy": 0.80
+    }
+  ]
+}

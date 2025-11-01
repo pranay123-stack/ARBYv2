@@ -1,0 +1,54 @@
+{
+  "image_filename": "perfect_football_interface.png",
+  "bookmaker": "Bet365",
+  "sport": "Football",
+  "event_name": "Manchester United vs Liverpool",
+  "event_date": "2024-03-15T15:00:00Z",
+  "market_type": "match_winner",
+  "league": "Premier League",
+  "odds": [
+    {
+      "outcome": "Home Win",
+      "decimal_odds": 2.10,
+      "fractional_odds": "11/10",
+      "implied_probability": 0.4762,
+      "american_odds": 110
+    },
+    {
+      "outcome": "Draw",
+      "decimal_odds": 3.20,
+      "fractional_odds": "11/5",
+      "implied_probability": 0.3125,
+      "american_odds": 220
+    },
+    {
+      "outcome": "Away Win",
+      "decimal_odds": 3.80,
+      "fractional_odds": "14/5",
+      "implied_probability": 0.2632,
+      "american_odds": 280
+    }
+  ],
+  "ui_elements": [
+    "odds_display",
+    "team_names",
+    "live_indicator",
+    "cash_out_button",
+    "bet_slip",
+    "account_balance"
+  ],
+  "extraction_difficulty": "easy",
+  "validation_notes": [
+    "Clear interface with no obstructions",
+    "Standard odds format",
+    "All text clearly readable",
+    "No overlay elements",
+    "Perfect lighting and resolution"
+  ],
+  "confidence_factors": {
+    "image_quality": 0.95,
+    "text_clarity": 0.98,
+    "layout_consistency": 0.90,
+    "standard_format": 0.95
+  }
+}

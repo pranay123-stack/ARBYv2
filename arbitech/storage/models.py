@@ -8,7 +8,7 @@ from decimal import Decimal
 from enum import Enum
 from typing import List, Dict, Optional, Union, Literal, Any
 from uuid import UUID, uuid4
-from pydantic import BaseModel, Field, validator, root_validator
+from pydantic import BaseModel, Field, validator, root_validator, model_validator
 
 
 # Enums for type safety
@@ -154,7 +154,7 @@ class ArbitrageOpportunity(UUIDMixin, TimestampMixin):
     # Risk and validation
     risk_tier: RiskTier = Field(..., description="Risk assessment tier")
     liquidity_checked: bool = Field(default=False, description="Whether liquidity was verified")
-    odds_ freshness: datetime = Field(default_factory=datetime.utcnow, description="When odds were last updated")
+    odds_freshness: datetime = Field(default_factory=datetime.utcnow, description="When odds were last updated")
     validation_errors: List[str] = Field(default_factory=list, description="Validation issues if any")
     
     # Metadata
@@ -230,16 +230,18 @@ class Trade(UUIDMixin, TimestampMixin):
     execution_time_ms: Optional[int] = Field(None, ge=0, description="Execution time in milliseconds")
     slippage: Optional[Decimal] = Field(None, ge=0.0, description="Price slippage experienced")
     
-    @root_validator
+    @model_validator(mode='before')
+    @classmethod
     def validate_profit_consistency(cls, values):
         """Ensure profit calculations are consistent."""
-        stake_data = values.get('stake_data')
-        expected_profit = values.get('expected_profit')
-        
-        if stake_data and expected_profit is not None:
-            total_potential_return = sum(stake_data.leg_allocations.values())
-            if expected_profit > total_potential_return * 0.1:  # Max 10% profit margin
-                raise ValueError("Expected profit seems unrealistic")
+        if isinstance(values, dict):
+            stake_data = values.get('stake_data')
+            expected_profit = values.get('expected_profit')
+            
+            if stake_data and expected_profit is not None:
+                total_potential_return = sum(stake_data.leg_allocations.values())
+                if expected_profit > total_potential_return * 0.1:  # Max 10% profit margin
+                    raise ValueError("Expected profit seems unrealistic")
         
         return values
 

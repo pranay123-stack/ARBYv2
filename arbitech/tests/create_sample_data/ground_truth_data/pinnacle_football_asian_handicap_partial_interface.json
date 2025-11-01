@@ -1,0 +1,54 @@
+{
+  "image_filename": "partial_interface.png",
+  "bookmaker": "Pinnacle",
+  "sport": "Football",
+  "event_name": "Arsenal vs Chelsea",
+  "event_date": "2024-03-18T17:30:00Z",
+  "market_type": "asian_handicap",
+  "partial_extraction": true,
+  "visible_odds": [
+    {
+      "outcome": "Arsenal -1.5",
+      "decimal_odds": 2.05,
+      "fractional_odds": "21/20",
+      "implied_probability": 0.4878,
+      "american_odds": 105
+    }
+  ],
+  "hidden_odds": [
+    {
+      "outcome": "Chelsea +1.5",
+      "decimal_odds": 1.78,
+      "fractional_odds": "39/50",
+      "implied_probability": 0.5618,
+      "american_odds": -128
+    }
+  ],
+  "ui_elements": [
+    "partial_odds_display",
+    "team_names_partial",
+    "asian_handicap_marker",
+    "scroll_indicator"
+  ],
+  "extraction_difficulty": "hard",
+  "validation_notes": [
+    "Only partial interface visible",
+    "Some odds cut off",
+    "Requires inference for complete data",
+    "Scroll indicators present",
+    "Asian handicap format"
+  ],
+  "extraction_challenges": [
+    "incomplete_data",
+    "partial_visibility",
+    "requires_scrolling",
+    "complex_handicap_format"
+  ],
+  "confidence_factors": {
+    "image_quality": 0.70,
+    "text_clarity": 0.65,
+    "layout_consistency": 0.60,
+    "standard_format": 0.40,
+    "data_completeness": 0.30
+  }
+}

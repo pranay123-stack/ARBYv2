@@ -1,0 +1,421 @@
+# VLM Testing Framework Configuration
+# Configuration settings for VLM accuracy testing on betting interfaces
+
+# =============================================================================
+# TEST EXECUTION SETTINGS
+# =============================================================================
+test_execution:
+  # Test data configuration
+  sample_data_path: "tests/create_sample_data"
+  
+  # Test performance settings
+  performance:
+    # Default timeout for individual tests (seconds)
+    default_timeout: 30
+    
+    # Maximum processing time per image (milliseconds)
+    max_processing_time_ms: 500
+    
+    # Minimum success rate threshold
+    min_success_rate: 0.80
+    
+    # Performance regression thresholds
+    performance_regression_threshold: 0.15  # 15% degradation
+    throughput_regression_threshold: 0.10  # 10% throughput drop
+    
+  # Parallel execution settings
+  parallel:
+    # Enable parallel test execution
+    enabled: false
+    
+    # Number of parallel workers
+    workers: 4
+    
+    # Maximum batch size for parallel processing
+    max_batch_size: 10
+    
+  # Retry settings for flaky tests
+  retry:
+    # Maximum retry attempts for failed tests
+    max_attempts: 3
+    
+    # Retry delay in seconds
+    delay_seconds: 1
+    
+    # Only retry transient failures
+    transient_only: true
+
+# =============================================================================
+# VLM ACCURACY TESTING SETTINGS
+# =============================================================================
+vlm_accuracy:
+  # Accuracy thresholds
+  accuracy_thresholds:
+    # Minimum overall accuracy required
+    overall_accuracy: 0.80
+    
+    # Minimum odds extraction accuracy
+    odds_extraction: 0.85
+    
+    # Minimum bookmaker detection accuracy
+    bookmaker_detection: 0.90
+    
+    # Minimum sport classification accuracy
+    sport_classification: 0.85
+    
+  # False positive rate thresholds
+  false_positive_thresholds:
+    # Maximum overall false positive rate
+    overall_fpr: 0.15
+    
+    # Maximum bookmaker false positive rate
+    bookmaker_fpr: 0.10
+    
+    # Maximum odds false positive rate
+    odds_fpr: 0.15
+    
+  # Confidence scoring
+  confidence:
+    # Minimum confidence threshold
+    min_confidence: 0.60
+    
+    # High confidence threshold
+    high_confidence: 0.80
+    
+    # Confidence score weighting in overall accuracy
+    confidence_weight: 0.30
+    
+  # Test categories
+  test_categories:
+    # Basic accuracy tests
+    basic_accuracy:
+      enabled: true
+      min_tests: 5
+      expected_success_rate: 0.90
+      
+    # Edge case tests
+    edge_cases:
+      enabled: true
+      min_tests: 5
+      expected_handling_rate: 0.70
+      
+    # Integration tests
+    integration:
+      enabled: true
+      min_tests: 3
+      expected_success_rate: 0.85
+
+# =============================================================================
+# BOOKMAKER-SPECIFIC TEST SETTINGS
+# =============================================================================
+bookmaker_specific:
+  # Supported bookmakers and their configurations
+  bookmakers:
+    bet365:
+      enabled: true
+      min_accuracy: 0.85
+      expected_ui_elements: ["odds_display", "team_names", "live_indicator"]
+      common_odds_formats: ["decimal", "fractional"]
+      
+    william_hill:
+      enabled: true
+      min_accuracy: 0.82
+      expected_ui_elements: ["odds_display", "team_names", "navigation_menu"]
+      common_odds_formats: ["decimal"]
+      
+    ladbrokes:
+      enabled: true
+      min_accuracy: 0.80
+      expected_ui_elements: ["odds_display", "team_names", "bet_builder"]
+      common_odds_formats: ["decimal"]
+      
+    betfair:
+      enabled: true
+      min_accuracy: 0.88
+      expected_ui_elements: ["back_lay_odds", "team_names", "market_volume"]
+      common_odds_formats: ["decimal"]
+      
+    pinnacle:
+      enabled: true
+      min_accuracy: 0.85
+      expected_ui_elements: ["odds_display", "team_names", "asian_handicap"]
+      common_odds_formats: ["decimal"]
+      
+    1xbet:
+      enabled: true
+      min_accuracy: 0.78
+      expected_ui_elements: ["odds_display", "team_names", "multi_language"]
+      common_odds_formats: ["decimal", "american"]
+  
+  # Cross-bookmaker comparison
+  comparison:
+    enabled: true
+    min_bookmakers_for_comparison: 3
+    performance_ranking_enabled: true
+    
+  # Bookmaker-specific edge cases
+  edge_cases:
+    enabled: true
+    test_mobile_views: true
+    test_popup_blocks: true
+    test_loading_states: true
+    test_multi_language: true
+    test_maintenance_mode: true
+
+# =============================================================================
+# ODDS VALIDATION SETTINGS
+# =============================================================================
+odds_validation:
+  # Mathematical validation
+  mathematical:
+    # Valid market overround range (80% to 150%)
+    valid_overround_range: [0.80, 1.50]
+    
+    # Arbitrage detection threshold (under 100% overround)
+    arbitrage_threshold: 1.00
+    
+    # Maximum acceptable bookmaker margin (15%)
+    max_bookmaker_margin: 0.15
+    
+    # Minimum odds value (must be > 1.0)
+    min_odds_value: 1.01
+    
+    # Maximum reasonable odds value
+    max_odds_value: 1000.0
+    
+  # Data consistency validation
+  consistency:
+    # Required fields for valid odds data
+    required_fields: ["bookmaker", "sport", "event_name", "market_type", "odds"]
+    
+    # Minimum number of outcomes per market
+    min_outcomes: 2
+    
+    # Maximum number of outcomes per market
+    max_outcomes: 10
+    
+    # Check for duplicate outcomes
+    check_duplicates: true
+    
+    # Validate sport-market type compatibility
+    validate_sport_market_compatibility: true
+    
+  # Validation test categories
+  test_categories:
+    probability_validation:
+      enabled: true
+      min_tests: 5
+      expected_success_rate: 0.90
+      
+    arbitrage_detection:
+      enabled: true
+      min_tests: 4
+      expected_success_rate: 0.85
+      
+    consistency_validation:
+      enabled: true
+      min_tests: 6
+      expected_success_rate: 0.88
+      
+    vlm_integration:
+      enabled: true
+      min_tests: 5
+      expected_success_rate: 0.85
+
+# =============================================================================
+# PERFORMANCE BENCHMARK SETTINGS
+# =============================================================================
+performance_benchmarks:
+  # Processing speed benchmarks
+  speed:
+    # Target processing time per image (milliseconds)
+    target_time_ms: 200
+    
+    # Maximum acceptable processing time
+    max_time_ms: 500
+    
+    # Minimum throughput (images per second)
+    min_throughput: 5.0
+    
+  # Memory usage benchmarks
+  memory:
+    # Maximum memory usage (MB)
+    max_usage_mb: 1024
+    
+    # Memory leak detection threshold (MB per minute)
+    leak_threshold_mb_per_min: 50
+    
+    # Memory stability requirement (stabilize within minutes)
+    stability_minutes: 2
+    
+  # Concurrent processing benchmarks
+  concurrent:
+    # Maximum concurrent workers
+    max_workers: 8
+    
+    # Maximum efficiency drop under load
+    max_efficiency_dropoff: 0.30
+    
+    # Maximum queue depth
+    max_queue_depth: 100
+    
+  # Stress testing
+  stress_test:
+    # Sustained load test duration (minutes)
+    sustained_load_minutes: 10
+    
+    # Burst test configuration
+    burst_size: 100
+    burst_duration_seconds: 30
+    
+    # Success criteria for stress tests
+    sustained_throughput_threshold: 50.0
+    burst_success_rate_threshold: 0.90
+
+# =============================================================================
+# REPORTING AND OUTPUT SETTINGS
+# =============================================================================
+reporting:
+  # Output configuration
+  output:
+    # Default output directory
+    default_output_dir: "vlm_test_results"
+    
+    # Generate multiple report formats
+    formats: ["json", "html", "txt"]
+    
+    # Include detailed metrics in reports
+    detailed_metrics: true
+    
+    # Include performance graphs (requires matplotlib)
+    include_graphs: false
+    
+  # Report content
+  content:
+    # Include raw test data
+    include_raw_data: true
+    
+    # Include performance metrics
+    include_performance_metrics: true
+    
+    # Include recommendations
+    include_recommendations: true
+    
+    # Include regression analysis
+    include_regression_analysis: false
+    
+  # Real-time reporting
+  realtime:
+    # Enable real-time progress reporting
+    enabled: true
+    
+    # Progress update interval (seconds)
+    update_interval: 5
+    
+    # Show live metrics
+    show_live_metrics: true
+
+# =============================================================================
+# INTEGRATION SETTINGS
+# =============================================================================
+integration:
+  # Data model integration
+  data_models:
+    # Integration with arbitech storage models
+    enabled: true
+    
+    # Validate extracted data against Pydantic models
+    validate_models: true
+    
+    # Test ArbitrageOpportunity conversion
+    test_arbitrage_conversion: true
+    
+  # External system integration
+  external:
+    # Integration with CI/CD systems
+    ci_integration: false
+    
+    # Webhook notifications for test failures
+    webhook_notifications: false
+    
+    # Integration with monitoring systems
+    monitoring_integration: false
+
+# =============================================================================
+# DEVELOPMENT AND DEBUGGING SETTINGS
+# =============================================================================
+development:
+  # Debug settings
+  debug:
+    # Enable debug logging
+    debug_logging: false
+    
+    # Save intermediate test data
+    save_intermediate_data: false
+    
+    # Generate debug visualizations
+    debug_visualizations: false
+    
+    # Verbose error reporting
+    verbose_errors: true
+    
+  # Mock settings
+  mock:
+    # Use mock VLM extractor for testing
+    use_mock_extractor: true
+    
+    # Mock extractor accuracy rate
+    mock_accuracy_rate: 0.85
+    
+    # Mock extractor confidence bias
+    mock_confidence_bias: 0.0
+    
+  # Test data generation
+  test_data:
+    # Generate additional test data on the fly
+    generate_additional_data: false
+    
+    # Synthetic data generation settings
+    synthetic_data:
+      # Number of synthetic images to generate
+      image_count: 10
+      
+      # Synthetic data complexity
+      complexity_level: "medium"
+
+# =============================================================================
+# QUALITY ASSURANCE SETTINGS
+# =============================================================================
+quality_assurance:
+  # Test quality checks
+  quality_checks:
+    # Minimum test coverage percentage
+    min_coverage: 0.80
+    
+    # Test data quality validation
+    validate_test_data: true
+    
+    # Cross-validation between test suites
+    cross_validate_suites: true
+    
+  # Regression testing
+  regression:
+    # Store baseline metrics for regression detection
+    store_baseline: true
+    
+    # Baseline file path
+    baseline_file: "tests/baseline_metrics.json"
+    
+    # Regression detection sensitivity
+    regression_sensitivity: 0.05  # 5% change detection
+    
+  # Continuous testing
+  continuous:
+    # Enable continuous testing mode
+    continuous_mode: false
+    
+    # Test execution interval (hours)
+    execution_interval_hours: 24
+    
+    # Automatic baseline updates
+    auto_update_baseline: false

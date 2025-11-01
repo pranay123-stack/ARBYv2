@@ -1,0 +1,70 @@
+{
+  "image_filename": "loading_state_interface.png",
+  "bookmaker": "Ladbrokes",
+  "sport": "Football",
+  "event_name": "Real Madrid vs Barcelona",
+  "market_type": "match_winner",
+  "loading_state": true,
+  "loading_elements": [
+    "spinner_animation",
+    "loading_text",
+    "skeleton_placeholder"
+  ],
+  "expected_outcome": {
+    "bookmaker": "Ladbrokes",
+    "sport": "Football", 
+    "event_name": "Real Madrid vs Barcelona",
+    "market_type": "match_winner",
+    "odds": [
+      {
+        "outcome": "Home Win",
+        "decimal_odds": 2.25,
+        "fractional_odds": "5/4",
+        "implied_probability": 0.4444,
+        "american_odds": 125
+      },
+      {
+        "outcome": "Draw",
+        "decimal_odds": 3.10,
+        "fractional_odds": "21/10",
+        "implied_probability": 0.3226,
+        "american_odds": 210
+      },
+      {
+        "outcome": "Away Win",
+        "decimal_odds": 3.40,
+        "fractional_odds": "12/5",
+        "implied_probability": 0.2941,
+        "american_odds": 240
+      }
+    ]
+  },
+  "ui_elements": [
+    "loading_spinner",
+    "skeleton_text_blocks",
+    "loading_message",
+    "progress_indicator"
+  ],
+  "extraction_difficulty": "hard",
+  "validation_notes": [
+    "Interface in loading state",
+    "Odds data not yet visible",
+    "Skeleton placeholders present",
+    "Should timeout gracefully",
+    "No actual odds data available"
+  ],
+  "extraction_challenges": [
+    "dynamic_loading",
+    "incomplete_data",
+    "timeout_handling",
+    "graceful_failure"
+  ],
+  "expected_behavior": "should_return_error_or_timeout",
+  "confidence_factors": {
+    "image_quality": 0.88,
+    "text_clarity": 0.10,
+    "layout_consistency": 0.20,
+    "standard_format": 0.15,
+    "data_availability": 0.05
+  }
+}

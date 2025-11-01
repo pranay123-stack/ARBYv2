@@ -1,0 +1,45 @@
+{
+  "image_filename": "perfect_tennis_interface.png",
+  "bookmaker": "William Hill",
+  "sport": "Tennis",
+  "event_name": "Novak Djokovic vs Rafael Nadal",
+  "event_date": "2024-03-16T14:30:00Z",
+  "market_type": "match_winner",
+  "tournament": "Indian Wells Masters",
+  "odds": [
+    {
+      "outcome": "Novak Djokovic",
+      "decimal_odds": 1.80,
+      "fractional_odds": "4/5",
+      "implied_probability": 0.5556,
+      "american_odds": -125
+    },
+    {
+      "outcome": "Rafael Nadal",
+      "decimal_odds": 2.00,
+      "fractional_odds": "1/1",
+      "implied_probability": 0.5000,
+      "american_odds": 100
+    }
+  ],
+  "ui_elements": [
+    "odds_display",
+    "player_names",
+    "tournament_info",
+    "head_to_head_stats",
+    "bet_builder_option"
+  ],
+  "extraction_difficulty": "easy",
+  "validation_notes": [
+    "Clean tennis interface",
+    "Two-outcome market",
+    "Clear player identification",
+    "Standard tournament format"
+  ],
+  "confidence_factors": {
+    "image_quality": 0.92,
+    "text_clarity": 0.96,
+    "layout_consistency": 0.88,
+    "standard_format": 0.94
+  }
+}
