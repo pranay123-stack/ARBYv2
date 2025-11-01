@@ -1,0 +1,22 @@
+{
+  "scenario_id": "edge_case_low_odds",
+  "sport": "Football",
+  "event_name": "Manchester City vs Burnley",
+  "event_date": "2025-11-02 04:53:55.117407",
+  "market_type": "match_winner",
+  "odds_by_bookmaker": {
+    "Pinnacle": [
+      "1.05",
+      "15.0",
+      "50.0"
+    ],
+    "Bet365": [
+      "1.03",
+      "18.0",
+      "60.0"
+    ]
+  },
+  "expected_arbitrage": true,
+  "difficulty": "hard",
+  "notes": "Very low odds scenario testing boundary conditions"
+}

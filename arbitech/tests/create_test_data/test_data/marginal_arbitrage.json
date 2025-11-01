@@ -1,0 +1,25 @@
+{
+  "scenario_id": "marginal_arbitrage_001",
+  "sport": "Tennis",
+  "event_name": "Djokovic vs Nadal",
+  "event_date": "2025-11-04 01:53:55.106742",
+  "market_type": "match_winner",
+  "odds_by_bookmaker": {
+    "Bet365": [
+      1.98,
+      1.99
+    ],
+    "Pinnacle": [
+      1.97,
+      2.01
+    ],
+    "1xBet": [
+      2.0,
+      1.97
+    ]
+  },
+  "expected_arbitrage": false,
+  "expected_profit_margin": 0.001,
+  "difficulty": "hard",
+  "notes": "Marginal arbitrage opportunity requiring precise calculation"
+}

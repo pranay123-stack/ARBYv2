@@ -48,7 +48,7 @@ class ConfigManager:
     
     def _get_default_config_path(self) -> str:
         """Get the default configuration file path."""
-        return os.path.join(os.path.dirname(__file__), "..", "..", "config", "config.yaml")
+        return os.path.join(os.path.dirname(__file__), "..", "config", "config.yaml")
     
     def _load_config(self) -> None:
         """Load configuration from YAML file and apply environment overrides."""

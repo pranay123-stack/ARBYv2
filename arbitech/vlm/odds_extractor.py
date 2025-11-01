@@ -675,6 +675,57 @@ class OddsExtractor:
             completeness_score=completeness_score,
             consistency_score=consistency_score
         )
+    
+    async def health_check(self) -> bool:
+        """
+        Perform a health check of the VLM extractor.
+        
+        Returns:
+            True if the extractor is healthy, False otherwise
+        """
+        try:
+            # Check if VLM endpoint is configured
+            if not self.vlm_endpoint:
+                self.logger.warning("VLM endpoint not configured")
+                return False
+            
+            # Check if API key is configured (if required)
+            if not self.vlm_api_key:
+                self.logger.warning("VLM API key not configured")
+                return False
+            
+            # Check rate limiting - ensure we're not at the limit
+            now = datetime.now()
+            recent_requests = [
+                req_time for req_time in self._last_requests 
+                if (now - req_time).total_seconds() < 60
+            ]
+            
+            if len(recent_requests) >= self.rate_limit:
+                self.logger.warning("VLM rate limit reached")
+                return False
+            
+            # Basic connectivity check (without making actual API call)
+            import aiohttp
+            async with aiohttp.ClientSession() as session:
+                try:
+                    # Just check if we can establish a connection
+                    async with session.get(
+                        self.vlm_endpoint,
+                        timeout=aiohttp.ClientTimeout(total=5)
+                    ) as response:
+                        # Any response (even error) indicates connectivity
+                        return True
+                except asyncio.TimeoutError:
+                    self.logger.warning("VLM endpoint connection timeout")
+                    return False
+                except Exception as e:
+                    self.logger.warning(f"VLM endpoint health check failed: {str(e)}")
+                    return False
+            
+        except Exception as e:
+            self.logger.error(f"VLM extractor health check failed: {str(e)}")
+            return False
 
 
 # ============================================================================

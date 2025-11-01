@@ -1,0 +1,27 @@
+{
+  "performance_tests": {
+    "stress_test": {
+      "test_id": "performance_stress_001",
+      "test_type": "scalability",
+      "num_events": 1000,
+      "num_bookmakers": 20,
+      "complexity": "high",
+      "description": "Large-scale arbitrage detection stress test"
+    },
+    "high_frequency_test": {
+      "test_id": "performance_highfreq_001",
+      "test_type": "high_frequency",
+      "update_frequency": "100ms",
+      "duration_minutes": 5,
+      "total_updates": 3000,
+      "description": "High-frequency market data processing test"
+    },
+    "memory_test": {
+      "test_id": "performance_memory_001",
+      "test_type": "memory_usage",
+      "data_size_gb": 1.0,
+      "complexity": "extreme",
+      "description": "Memory usage and garbage collection test"
+    }
+  }
+}

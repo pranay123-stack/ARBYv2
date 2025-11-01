@@ -1,0 +1,22 @@
+{
+  "scenario_id": "edge_case_high_odds",
+  "sport": "Football",
+  "event_name": "Real Madrid vs Barcelona",
+  "event_date": "2025-11-09 01:53:55.117401",
+  "market_type": "exact_score",
+  "odds_by_bookmaker": {
+    "Bet365": [
+      "15.0",
+      "25.0",
+      "50.0"
+    ],
+    "William Hill": [
+      "14.0",
+      "30.0",
+      "45.0"
+    ]
+  },
+  "expected_arbitrage": true,
+  "difficulty": "medium",
+  "notes": "High odds scenario testing precision with large numbers"
+}

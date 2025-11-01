@@ -1,0 +1,25 @@
+{
+  "scenario_id": "no_arbitrage_001",
+  "sport": "Football",
+  "event_name": "Arsenal vs Chelsea",
+  "event_date": "2025-11-02 07:53:55.112193",
+  "market_type": "total_goals",
+  "odds_by_bookmaker": {
+    "Bet365": [
+      1.85,
+      1.95
+    ],
+    "William Hill": [
+      1.87,
+      1.93
+    ],
+    "Ladbrokes": [
+      1.83,
+      1.97
+    ]
+  },
+  "expected_arbitrage": false,
+  "expected_profit_margin": -0.055,
+  "difficulty": "easy",
+  "notes": "Standard market with typical bookmaker margins"
+}

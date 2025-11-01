@@ -1,0 +1,28 @@
+{
+  "scenario_id": "edge_case_many_outcomes",
+  "sport": "Horse Racing",
+  "event_name": "Grand National",
+  "event_date": "2025-11-16 01:53:55.117410",
+  "market_type": "winner",
+  "odds_by_bookmaker": {
+    "Bet365": [
+      "3.5",
+      "4",
+      "6",
+      "8",
+      "12",
+      "15"
+    ],
+    "William Hill": [
+      "3.20000000000000017763568394002504646778106689453125",
+      "4.20000000000000017763568394002504646778106689453125",
+      "5.79999999999999982236431605997495353221893310546875",
+      "7.5",
+      "13",
+      "16"
+    ]
+  },
+  "expected_arbitrage": false,
+  "difficulty": "hard",
+  "notes": "Many outcomes scenario testing scalability"
+}

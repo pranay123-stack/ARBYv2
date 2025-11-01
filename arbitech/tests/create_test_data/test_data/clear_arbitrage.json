@@ -1,0 +1,38 @@
+{
+  "scenario_id": "clear_arbitrage_001",
+  "sport": "Football",
+  "event_name": "Manchester United vs Liverpool",
+  "event_date": "2025-11-03 01:53:55.100764",
+  "market_type": "match_winner",
+  "odds_by_bookmaker": {
+    "Bet365": [
+      2.1,
+      1.9,
+      3.2
+    ],
+    "William Hill": [
+      1.95,
+      2.2,
+      2.8
+    ],
+    "Ladbrokes": [
+      2.05,
+      1.95,
+      3.0
+    ],
+    "Betfair": [
+      2.0,
+      2.1,
+      2.9
+    ],
+    "Pinnacle": [
+      2.08,
+      2.05,
+      3.15
+    ]
+  },
+  "expected_arbitrage": true,
+  "expected_profit_margin": 0.032,
+  "difficulty": "easy",
+  "notes": "Clear arbitrage opportunity with well-defined best odds for each outcome"
+}

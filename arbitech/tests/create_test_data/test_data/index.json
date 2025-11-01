@@ -1,0 +1,34 @@
+{
+  "test_data_index": {
+    "generated_at": "2025-11-02T01:53:55.160647",
+    "total_files": 9,
+    "files": [
+      "bookmaker_dataset.json",
+      "clear_arbitrage.json",
+      "edge_cases_01.json",
+      "edge_cases_02.json",
+      "edge_cases_03.json",
+      "high_frequency.json",
+      "marginal_arbitrage.json",
+      "no_arbitrage.json",
+      "performance_tests.json"
+    ],
+    "categories": {
+      "market_scenarios": [
+        "clear_arbitrage.json",
+        "edge_cases_01.json",
+        "edge_cases_02.json",
+        "edge_cases_03.json",
+        "high_frequency.json",
+        "marginal_arbitrage.json",
+        "no_arbitrage.json"
+      ],
+      "bookmaker_datasets": [
+        "bookmaker_dataset.json"
+      ],
+      "performance_tests": [
+        "performance_tests.json"
+      ]
+    }
+  }
+}
