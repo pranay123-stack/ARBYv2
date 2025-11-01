@@ -1,0 +1,481 @@
+# Arbitech Configuration File
+# This file contains all configuration settings for the arbitrage trading system
+# Environment variables can override these values using ARBITECH_<SECTION>__<KEY> format
+
+# =============================================================================
+# USER RISK CONFIGURATION
+# =============================================================================
+user:
+  risk:
+    # Maximum stake amount per bet
+    max_stake: 1000.0
+    
+    # Risk percentage of bankroll per bet (0-100)
+    risk_percentage: 2.0
+    
+    # Minimum odds to consider for betting
+    min_odds: 1.5
+    
+    # Maximum odds to consider for betting
+    max_odds: 10.0
+    
+    # Maximum number of concurrent bets
+    max_concurrent_bets: 5
+    
+    # Stop loss percentage (optional, set to null to disable)
+    stop_loss_percentage: 10.0
+    
+    # Take profit percentage (optional, set to null to disable)
+    take_profit_percentage: 20.0
+    
+    # Minimum profit margin to consider
+    min_profit_margin: 1.0
+    
+    # Maximum exposure per bookmaker
+    max_exposure_per_bookmaker: 500.0
+
+# =============================================================================
+# SYSTEM CONFIGURATION
+# =============================================================================
+system:
+  # VLM (Virtual Live Model) parameters
+  vlm:
+    # VLM model endpoint
+    endpoint: "http://localhost:8080/vlm"
+    
+    # API key for VLM service
+    api_key: null
+    
+    # Request timeout in seconds
+    timeout: 30
+    
+    # Number of retry attempts
+    retry_attempts: 3
+    
+    # Retry delay in seconds
+    retry_delay: 5
+    
+    # Enable/disable VLM integration
+    enabled: true
+    
+    # Rate limit per minute
+    rate_limit_per_minute: 60
+  
+  # Scan intervals (in seconds)
+  scan_intervals:
+    # How often to scan for new opportunities
+    general_scan: 60
+    
+    # How often to check live odds
+    live_odds: 5
+    
+    # How often to update bookmaker data
+    bookmaker_update: 30
+    
+    # How often to check account balances
+    balance_check: 300
+    
+    # How often to perform health checks
+    health_check: 120
+  
+  # System performance settings
+  performance:
+    # Maximum number of concurrent scans
+    max_concurrent_scans: 10
+    
+    # Thread pool size for parallel operations
+    thread_pool_size: 20
+    
+    # Memory limit in MB
+    memory_limit: 1024
+    
+    # Cache expiration time in seconds
+    cache_expiration: 300
+  
+  # Database settings
+  database:
+    # Database URL
+    url: "sqlite:///data/arbitech.db"
+    
+    # Connection pool size
+    pool_size: 10
+    
+    # Connection timeout in seconds
+    timeout: 30
+    
+    # Enable database migrations
+    migrations_enabled: true
+
+# =============================================================================
+# BOOKMAKER INTEGRATIONS
+# =============================================================================
+bookmakers:
+  # Bet365
+  bet365:
+    enabled: true
+    type: "api"
+    api_key: null  # Set via ARBITECH_BOOKMAKERS__BET365__API_KEY
+    username: null  # Set via ARBITECH_BOOKMAKERS__BET365__USERNAME
+    password: null  # Set via ARBITECH_BOOKMAKERS__BET365__PASSWORD
+    base_url: "https://api.bet365.com"
+    rate_limit_per_minute: 30
+    timeout: 15
+    retry_attempts: 3
+    sports:
+      - "soccer"
+      - "tennis"
+      - "basketball"
+    regions: ["UK", "EU", "US"]
+    currency: "GBP"
+    auto_balance_check: true
+    max_stake_per_bet: 500.0
+  
+  # William Hill
+  william_hill:
+    enabled: true
+    type: "api"
+    api_key: null
+    username: null
+    password: null
+    base_url: "https://api.williamhill.com"
+    rate_limit_per_minute: 25
+    timeout: 15
+    retry_attempts: 3
+    sports:
+      - "soccer"
+      - "tennis"
+      - "basketball"
+    regions: ["UK", "EU"]
+    currency: "GBP"
+    auto_balance_check: true
+    max_stake_per_bet: 300.0
+  
+  # Ladbrokes
+  ladbrokes:
+    enabled: true
+    type: "api"
+    api_key: null
+    username: null
+    password: null
+    base_url: "https://api.ladbrokes.com"
+    rate_limit_per_minute: 20
+    timeout: 15
+    retry_attempts: 3
+    sports:
+      - "soccer"
+      - "tennis"
+      - "basketball"
+    regions: ["UK", "EU", "AU"]
+    currency: "GBP"
+    auto_balance_check: true
+    max_stake_per_bet: 400.0
+  
+  # Betfair (Exchange)
+  betfair:
+    enabled: true
+    type: "exchange"
+    app_key: null  # Set via ARBITECH_BOOKMAKERS__BETFAIR__APP_KEY
+    session_token: null  # Set via ARBITECH_BOOKMAKERS__BETFAIR__SESSION_TOKEN
+    username: null
+    password: null
+    base_url: "https://api.betfair.com"
+    rate_limit_per_minute: 10
+    timeout: 10
+    retry_attempts: 3
+    sports:
+      - "soccer"
+      - "tennis"
+      - "basketball"
+    currency: "GBP"
+    exchange_commission: 0.05
+    max_stake_per_bet: 1000.0
+  
+  # Pinnacle
+  pinnacle:
+    enabled: true
+    type: "api"
+    username: null
+    password: null
+    base_url: "https://api.pinnacle.com"
+    rate_limit_per_minute: 40
+    timeout: 15
+    retry_attempts: 3
+    sports:
+      - "soccer"
+      - "tennis"
+      - "basketball"
+    currency: "USD"
+    auto_balance_check: true
+    max_stake_per_bet: 2000.0
+  
+  # DraftKings (US)
+  draftkings:
+    enabled: false  # Disabled by default due to US regulations
+    type: "api"
+    api_key: null
+    username: null
+    password: null
+    base_url: "https://api.draftkings.com"
+    rate_limit_per_minute: 50
+    timeout: 15
+    retry_attempts: 3
+    sports:
+      - "soccer"
+      - "basketball"
+      - "american_football"
+    regions: ["US"]
+    currency: "USD"
+    auto_balance_check: true
+    max_stake_per_bet: 100.0
+  
+  # 1xBet
+  1xbet:
+    enabled: true
+    type: "api"
+    api_key: null
+    username: null
+    password: null
+    base_url: "https://api.1xbet.com"
+    rate_limit_per_minute: 35
+    timeout: 15
+    retry_attempts: 3
+    sports:
+      - "soccer"
+      - "tennis"
+      - "basketball"
+    regions: ["GLOBAL"]
+    currency: "USD"
+    auto_balance_check: true
+    max_stake_per_bet: 800.0
+
+# =============================================================================
+# NOTIFICATION PREFERENCES
+# =============================================================================
+notifications:
+  # Email notifications
+  email:
+    enabled: false
+    smtp_server: "smtp.gmail.com"
+    smtp_port: 587
+    username: null  # Set via ARBITECH_NOTIFICATIONS__EMAIL__USERNAME
+    password: null  # Set via ARBITECH_NOTIFICATIONS__EMAIL__PASSWORD
+    from_address: "arbitech@example.com"
+    to_addresses:
+      - "user@example.com"
+    
+    # Email templates
+    templates:
+      opportunity_alert: "templates/opportunity_alert.html"
+      error_alert: "templates/error_alert.html"
+      daily_report: "templates/daily_report.html"
+    
+    # Subject templates
+    subjects:
+      new_opportunity: "🎯 New Arbitrage Opportunity: {profit_margin}%"
+      error_occurred: "❌ Error: {error_message}"
+      daily_summary: "📊 Daily Summary: {profit_total}"
+  
+  # Discord webhook
+  discord:
+    enabled: false
+    webhook_url: null  # Set via ARBITECH_NOTIFICATIONS__DISCORD__WEBHOOK_URL
+  
+  # Telegram bot
+  telegram:
+    enabled: false
+    bot_token: null  # Set via ARBITECH_NOTIFICATIONS__TELEGRAM__BOT_TOKEN
+    chat_id: null  # Set via ARBITECH_NOTIFICATIONS__TELEGRAM__CHAT_ID
+  
+  # Slack webhook
+  slack:
+    enabled: false
+    webhook_url: null  # Set via ARBITECH_NOTIFICATIONS__SLACK__WEBHOOK_URL
+  
+  # Push notifications
+  push:
+    enabled: false
+    provider: "firebase"  # "firebase" or "apns"
+    firebase_config: null  # Path to Firebase config JSON
+    apns_config: null     # Path to APNS config
+  
+  # Webhooks for custom integrations
+  webhooks:
+    custom_endpoint:
+      enabled: false
+      url: null  # Set via ARBITECH_NOTIFICATIONS__WEBHOOKS__CUSTOM_ENDPOINT__URL
+      headers: {}
+      timeout: 30
+  
+  # Notification triggers
+  triggers:
+    # Minimum profit margin to trigger notifications
+    min_profit_margin: 2.0
+    
+    # Notification frequency limits
+    max_opportunities_per_hour: 10
+    max_errors_per_hour: 5
+    
+    # Enable/disable specific notification types
+    enable_opportunity_alerts: true
+    enable_error_alerts: true
+    enable_balance_alerts: true
+    enable_daily_reports: true
+
+# =============================================================================
+# LOGGING CONFIGURATION
+# =============================================================================
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log format string
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s"
+  
+  # Date format for log messages
+  date_format: "%Y-%m-%d %H:%M:%S"
+  
+  # Log file configuration
+  file: "logs/arbitech.log"
+  
+  # Maximum log file size in bytes (10MB)
+  max_file_size: 10485760
+  
+  # Number of backup log files to keep
+  backup_count: 5
+  
+  # Enable console logging
+  console: true
+  
+  # Log colors for console output
+  colors: true
+  
+  # Log filtering
+  filters:
+    # Log specific modules at different levels
+    arbitech.core.config_manager: "INFO"
+    arbitech.scanners.odds_scanner: "DEBUG"
+    arbitech.execution.bet_executor: "INFO"
+  
+  # Performance logging
+  performance:
+    enabled: false
+    log_api_calls: false
+    log_database_queries: false
+    slow_query_threshold: 1.0  # seconds
+  
+  # Security logging
+  security:
+    enabled: true
+    log_authentication: true
+    log_api_keys: false  # Don't log actual API keys
+    audit_file: "logs/audit.log"
+
+# =============================================================================
+# ADVANCED SETTINGS
+# =============================================================================
+advanced:
+  # Feature flags
+  features:
+    live_betting: true
+    auto_staking: false
+    risk_management: true
+    portfolio_optimization: true
+    backtesting: false
+    paper_trading: false
+  
+  # Performance optimization
+  optimization:
+    # Enable async operations
+    async_operations: true
+    
+    # Connection pooling
+    connection_pooling: true
+    
+    # Caching settings
+    caching:
+      enabled: true
+      provider: "redis"  # "memory", "redis", "memcached"
+      ttl: 300  # Time to live in seconds
+      max_size: 1000
+    
+    # Database query optimization
+    query_optimization:
+      enabled: true
+      slow_query_logging: true
+      index_suggestions: true
+  
+  # Backup settings
+  backup:
+    # Automatic backups
+    auto_backup: true
+    
+    # Backup interval in hours
+    interval: 24
+    
+    # Backup retention in days
+    retention_days: 30
+    
+    # Backup location
+    location: "backups/"
+    
+    # Database backup settings
+    database:
+      enabled: true
+      format: "sql"  # "sql" or "json"
+      compress: true
+  
+  # Development settings (for testing)
+  development:
+    debug_mode: false
+    test_mode: false
+    mock_external_apis: false
+    save_test_data: false
+    
+    # Test bookmaker (for development)
+    test_bookmaker:
+      enabled: false
+      base_url: "http://localhost:8080/mock"
+      api_key: "test_key"
+
+# =============================================================================
+# REGIONAL SETTINGS
+# =============================================================================
+regional:
+  # Default currency
+  default_currency: "USD"
+  
+  # Supported currencies
+  supported_currencies:
+    - "USD"
+    - "GBP"
+    - "EUR"
+    - "AUD"
+    - "CAD"
+  
+  # Timezone
+  timezone: "UTC"
+  
+  # Regional restrictions
+  restrictions:
+    # Countries where arbitrage betting is restricted
+    restricted_countries: []
+    
+    # Required licensing for certain regions
+    required_licenses: []
+  
+  # Legal compliance
+  compliance:
+    # Enable regulatory compliance checks
+    enabled: true
+    
+    # Maximum bet limits by region
+    regional_limits:
+      UK: 2000.0
+      EU: 1500.0
+      US: 500.0
+      AU: 1000.0
+    
+    # Required disclaimers
+    disclaimers:
+      enabled: true
+      content: "Gambling can be addictive. Please play responsibly."
