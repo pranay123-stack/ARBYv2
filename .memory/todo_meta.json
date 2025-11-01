@@ -40,14 +40,14 @@
         "id": "6",
         "content": "Phase 6: HITL (Human-In-The-Loop) Mode",
         "details": "1. Build opportunity presentation system\n2. Create user approval workflow\n3. Implement timeout handling\n4. Add trade result logging\n5. Test end-to-end HITL execution flow",
-        "status": "in_progress",
+        "status": "completed",
         "priority": "medium"
       },
       "7": {
         "id": "7",
         "content": "Phase 7: Autonomous Mode & Safety",
         "details": "1. Implement autonomous execution for Tier A only\n2. Add real-time decision making\n3. Create circuit breakers and failsafes\n4. Implement concurrent trade handling\n5. Add autonomous mode monitoring and control",
-        "status": "pending",
+        "status": "in_progress",
         "priority": "medium"
       },
       "8": {
